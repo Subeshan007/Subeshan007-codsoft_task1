@@ -106,7 +106,7 @@ function initializeCubeInteraction() {
     let rotationX = -10;
     let rotationY = 0;
     let previousX, previousY;
-    const spinSpeed = 0.15;
+    const spinSpeed = 0.2;
 
     function animate() {
         if (!isDragging) {
