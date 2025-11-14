@@ -3,6 +3,111 @@ const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
 const contactForm = document.getElementById('contact-form');
 
+// Create animated particle background
+function createParticles() {
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'particles-container';
+    particlesContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    `;
+    document.body.prepend(particlesContainer);
+
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = Math.random() * 3 + 1;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        
+        particle.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            background: rgba(96, 165, 250, ${Math.random() * 0.5 + 0.3});
+            border-radius: 50%;
+            left: ${x}%;
+            top: ${y}%;
+            animation: float ${duration}s linear infinite;
+            animation-delay: ${delay}s;
+            box-shadow: 0 0 ${size * 3}px rgba(96, 165, 250, 0.8);
+        `;
+        particlesContainer.appendChild(particle);
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+            50% {
+                transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Cursor trail effect
+function createCursorTrail() {
+    const trail = [];
+    const trailLength = 10;
+
+    document.addEventListener('mousemove', (e) => {
+        const dot = document.createElement('div');
+        dot.className = 'cursor-trail';
+        dot.style.cssText = `
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.8), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            left: ${e.clientX - 4}px;
+            top: ${e.clientY - 4}px;
+            animation: trailFade 0.8s ease-out forwards;
+        `;
+        document.body.appendChild(dot);
+
+        trail.push(dot);
+        if (trail.length > trailLength) {
+            const oldDot = trail.shift();
+            oldDot.remove();
+        }
+
+        setTimeout(() => dot.remove(), 800);
+    });
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes trailFade {
+            to {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Initialize particles and cursor trail
+createParticles();
+createCursorTrail();
+
 navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('active');
     navToggle.classList.toggle('active');
@@ -467,13 +572,13 @@ function addScrollTopButton() {
         right: 30px;
         width: 50px;
         height: 50px;
-        background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
         color: white;
         border: none;
         border-radius: 50%;
         cursor: pointer;
         font-size: 18px;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5), 0 0 30px rgba(59, 130, 246, 0.3);
         transition: all 0.3s ease;
         opacity: 0;
         visibility: hidden;
@@ -484,12 +589,12 @@ function addScrollTopButton() {
     
     scrollTopBtn.addEventListener('mouseenter', () => {
         scrollTopBtn.style.transform = 'translateY(-3px)';
-        scrollTopBtn.style.boxShadow = '0 6px 20px rgba(79, 70, 229, 0.4)';
+        scrollTopBtn.style.boxShadow = '0 6px 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4)';
     });
     
     scrollTopBtn.addEventListener('mouseleave', () => {
         scrollTopBtn.style.transform = 'translateY(0)';
-        scrollTopBtn.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.3)';
+        scrollTopBtn.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.5), 0 0 30px rgba(59, 130, 246, 0.3)';
     });
     
     window.addEventListener('scroll', () => {
